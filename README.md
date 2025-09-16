@@ -12,12 +12,12 @@ Questo progetto implementa la gestione di due semafori:
 - Quando i pedoni premono il pulsante:
   1. Il semaforo Auto passa **verde → giallo → rosso**.  
   2. Il semaforo Pedoni diventa **verde** per un tempo impostato (es. `5s`).  
-  3. Alla scadenza del tempo, il semaforo Pedoni torna **verde → giallo → rosso**, mentre l’Auto torna **verde**.
+  3. Alla scadenza del tempo, il semaforo Pedoni torna **verde → giallo → rosso**, mentre semaforo Auto torna **verde**.
 
 ---
 
 ## 🌙 Modalità Notte
-- Attivabile con un pulsante **ritentivo**.  
+- Attivabile con un pulsante **ritentivo**.
 - Entrambi i semafori lampeggiano **giallo** con una frequenza impostabile (es. `0.5s`).  
 - Se durante la modalità notte viene premuto il pulsante Pedoni:
   - Il semaforo Auto diventa **rosso**.  
@@ -31,29 +31,22 @@ Questo progetto implementa la gestione di due semafori:
 - **`Enum_stoplight`**  
   Enumeratore che definisce gli stati possibili di un semaforo:  
   `Red`, `Yellow`, `Green`, `Off`.
+  Usato per evitare il caso di più stati (luci) nello stesso istante
 
 - **`Struct_stoplight`**  
-  Struttura che converte lo stato dell’enum in variabili booleane:  
-  utile per la **visualizzazione** e per comandare le singole lampade.  
+  Struttura con variabili (vedi stati Enum_stoplight) BOOL. (Solo una TRUE in qualsiasi istante)
+  utile nella **visualizzazione** per comandare le singole luci.
 
 - **`EnumToStruct` (Function)**  
-  Funzione che converte un valore `Enum_stoplight` in una `Struct_stoplight`.  
+  Funzione con in input variabile `Enum_stoplight` e output Struct  `Struct_stoplight` "corrispettiva".  
   - Input: variabile Enum (es. `Enum_carSL`)  
-  - Output: variabile Struct con `TRUE` sul campo corrispondente  
-    (es. se `Enum_carSL = Green` → `Struct_carSL.Green = TRUE`)
+  - Output: variabile Struct con `TRUE` sul campo corrispondente (es. `Struct_carSL`)  
+    (es. se `Enum_carSL = Enum_stoplight.Green` → `Struct_carSL.Green = TRUE`)
 
 ---
 
 ## ⚙️ Logica di controllo
-- Implementata interamente in **Ladder (LD)**.  
+- Implementata interamente in **Ladder (LD)**.
 - Uso di:
-  - **Timer** per la gestione delle durate dei segnali.  
-  - **Blocchi `MOVE`** per cambiare il valore delle variabili enum dei semafori.  
-
----
-
-## 📂 Contenuto del repository
-- **`/ProjectBackup`** → File `.project` completo per riaprire il progetto in CODESYS.  
-- **`/Source`** → Export in formato PLCopenXML.  
-  - `project_full.xml` → progetto completo in un file unico.  
-  - `/POU/` → singoli blocchi del programma (Main, FB, ecc.).  
+  - **Timer** per la gestione delle durate delle varie luci.  
+  - **Blocchi `MOVE`** per impostare il valore delle variabili enum dei due semafori (cambio stato, es.   
