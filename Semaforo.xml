@@ -1,0 +1,1373 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<project xmlns="http://www.plcopen.org/xml/tc6_0200">
+  <fileHeader companyName="" productName="CODESYS" productVersion="CODESYS V3.5 SP21 Patch 2" creationDateTime="2025-09-16T15:13:17.4947793" />
+  <contentHeader name="Semaforo.project" modificationDateTime="2025-09-16T14:50:45.2237515">
+    <coordinateInfo>
+      <fbd>
+        <scaling x="1" y="1" />
+      </fbd>
+      <ld>
+        <scaling x="1" y="1" />
+      </ld>
+      <sfc>
+        <scaling x="1" y="1" />
+      </sfc>
+    </coordinateInfo>
+    <addData>
+      <data name="http://www.3s-software.com/plcopenxml/projectinformation" handleUnknown="implementation">
+        <ProjectInformation />
+      </data>
+    </addData>
+  </contentHeader>
+  <types>
+    <dataTypes />
+    <pous />
+  </types>
+  <instances>
+    <configurations>
+      <configuration name="Device">
+        <resource name="Application">
+          <task name="MainTask" interval="PT0.02S" priority="1">
+            <pouInstance name="PLC_PRG" typeName="">
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+              </documentation>
+            </pouInstance>
+            <addData>
+              <data name="http://www.3s-software.com/plcopenxml/tasksettings" handleUnknown="implementation">
+                <TaskSettings KindOfTask="Cyclic" Interval="t#20ms" IntervalUnit="ms" WithinSPSTimeSlicing="true">
+                  <Watchdog Enabled="false" TimeUnit="ms" Sensitivity="1" />
+                </TaskSettings>
+              </data>
+              <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+                <ObjectId>aa2bcde6-1f2c-4d5d-a1bd-efd3e32316fd</ObjectId>
+              </data>
+            </addData>
+          </task>
+          <task name="VISU_TASK" interval="PT0.1S" priority="31">
+            <pouInstance name="VisuElems.Visu_Prg" typeName="">
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+              </documentation>
+            </pouInstance>
+            <addData>
+              <data name="http://www.3s-software.com/plcopenxml/tasksettings" handleUnknown="implementation">
+                <TaskSettings KindOfTask="Cyclic" Interval="100" IntervalUnit="ms" WithinSPSTimeSlicing="true">
+                  <Watchdog Enabled="false" TimeUnit="ms" />
+                </TaskSettings>
+              </data>
+              <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+                <ObjectId>28d40bd9-1271-477e-bdd4-b1c505f86e09</ObjectId>
+              </data>
+            </addData>
+          </task>
+          <addData>
+            <data name="http://www.3s-software.com/plcopenxml/datatype" handleUnknown="implementation">
+              <dataType name="Enum_stoplight">
+                <baseType>
+                  <enum>
+                    <values>
+                      <value name="Red" />
+                      <value name="Yellow" />
+                      <value name="Green" />
+                      <value name="Off" />
+                    </values>
+                  </enum>
+                </baseType>
+                <addData>
+                  <data name="http://www.3s-software.com/plcopenxml/attributes" handleUnknown="implementation">
+                    <Attributes>
+                      <Attribute Name="qualified_only" Value="" />
+                      <Attribute Name="strict" Value="" />
+                    </Attributes>
+                  </data>
+                  <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+                    <ObjectId>14fa634c-aaab-4569-b06b-8e42a492776b</ObjectId>
+                  </data>
+                </addData>
+              </dataType>
+            </data>
+            <data name="http://www.3s-software.com/plcopenxml/datatype" handleUnknown="implementation">
+              <dataType name="Struct_stoplight">
+                <baseType>
+                  <struct>
+                    <variable name="Red">
+                      <type>
+                        <BOOL />
+                      </type>
+                    </variable>
+                    <variable name="Yellow">
+                      <type>
+                        <BOOL />
+                      </type>
+                    </variable>
+                    <variable name="Green">
+                      <type>
+                        <BOOL />
+                      </type>
+                    </variable>
+                    <variable name="Off">
+                      <type>
+                        <BOOL />
+                      </type>
+                    </variable>
+                  </struct>
+                </baseType>
+                <addData>
+                  <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+                    <ObjectId>84ab795d-a7cb-4099-8462-6579915a4942</ObjectId>
+                  </data>
+                </addData>
+              </dataType>
+            </data>
+            <data name="http://www.3s-software.com/plcopenxml/pou" handleUnknown="implementation">
+              <pou name="PLC_PRG" pouType="program">
+                <interface>
+                  <localVars>
+                    <variable name="Enum_carSL">
+                      <type>
+                        <derived name="Enum_stoplight" />
+                      </type>
+                      <initialValue>
+                        <simpleValue value="Enum_stoplight.Green" />
+                      </initialValue>
+                      <documentation>
+                        <xhtml xmlns="http://www.w3.org/1999/xhtml">all stoplight possibile state (Red,Yellow,Green,Off)</xhtml>
+                      </documentation>
+                    </variable>
+                    <variable name="Enum_pedSL">
+                      <type>
+                        <derived name="Enum_stoplight" />
+                      </type>
+                      <initialValue>
+                        <simpleValue value="Enum_stoplight.Red" />
+                      </initialValue>
+                      <documentation>
+                        <xhtml xmlns="http://www.w3.org/1999/xhtml">same as Enum_carSL but refering to pedestrian stoplight</xhtml>
+                      </documentation>
+                    </variable>
+                    <variable name="car_stoplight">
+                      <type>
+                        <derived name="Struct_stoplight" />
+                      </type>
+                      <documentation>
+                        <xhtml xmlns="http://www.w3.org/1999/xhtml">stoplight state as BOOL (used in the visu)</xhtml>
+                      </documentation>
+                    </variable>
+                    <variable name="ped_stoplight">
+                      <type>
+                        <derived name="Struct_stoplight" />
+                      </type>
+                    </variable>
+                    <variable name="ped_cal">
+                      <type>
+                        <BOOL />
+                      </type>
+                      <documentation>
+                        <xhtml xmlns="http://www.w3.org/1999/xhtml">TRUE when pedestrian can cross (Green or Yellow)(FALSE when in nightmode)</xhtml>
+                      </documentation>
+                    </variable>
+                    <variable name="ped_btn">
+                      <type>
+                        <BOOL />
+                      </type>
+                      <documentation>
+                        <xhtml xmlns="http://www.w3.org/1999/xhtml">link to request button in visu</xhtml>
+                      </documentation>
+                    </variable>
+                    <variable name="night_btn">
+                      <type>
+                        <BOOL />
+                      </type>
+                      <documentation>
+                        <xhtml xmlns="http://www.w3.org/1999/xhtml">retain button TRUE when in nightmode</xhtml>
+                      </documentation>
+                    </variable>
+                    <variable name="night_yellowOn">
+                      <type>
+                        <BOOL />
+                      </type>
+                      <documentation>
+                        <xhtml xmlns="http://www.w3.org/1999/xhtml">used to "simulate" the pulsing light (nightmode)</xhtml>
+                      </documentation>
+                    </variable>
+                    <variable name="TON_carYellowTime">
+                      <type>
+                        <derived name="TON" />
+                      </type>
+                    </variable>
+                    <variable name="car_yellowTime">
+                      <type>
+                        <TIME />
+                      </type>
+                      <initialValue>
+                        <simpleValue value="TIME#2s0ms" />
+                      </initialValue>
+                    </variable>
+                    <variable name="TON_pedGreenTime">
+                      <type>
+                        <derived name="TON" />
+                      </type>
+                    </variable>
+                    <variable name="ped_greenTime">
+                      <type>
+                        <TIME />
+                      </type>
+                      <initialValue>
+                        <simpleValue value="TIME#5s0ms" />
+                      </initialValue>
+                    </variable>
+                    <variable name="TON_pedYellowTime">
+                      <type>
+                        <derived name="TON" />
+                      </type>
+                    </variable>
+                    <variable name="ped_yellowTime">
+                      <type>
+                        <TIME />
+                      </type>
+                      <initialValue>
+                        <simpleValue value="TIME#2s0ms" />
+                      </initialValue>
+                    </variable>
+                    <variable name="TON_yellowLightOn">
+                      <type>
+                        <derived name="TON" />
+                      </type>
+                    </variable>
+                    <variable name="TON_yellowLightOff">
+                      <type>
+                        <derived name="TON" />
+                      </type>
+                    </variable>
+                    <variable name="night_pulsingTime">
+                      <type>
+                        <TIME />
+                      </type>
+                      <initialValue>
+                        <simpleValue value="TIME#500ms" />
+                      </initialValue>
+                    </variable>
+                  </localVars>
+                </interface>
+                <body>
+                  <LD>
+                    <!--ObjectVersion: LD1-->
+                    <leftPowerRail localId="0">
+                      <position x="0" y="0" />
+                      <connectionPointOut formalParameter="none" />
+                    </leftPowerRail>
+                    <comment localId="1" height="0" width="0">
+                      <position x="0" y="0" />
+                      <content>
+                        <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+                      </content>
+                    </comment>
+                    <vendorElement localId="2">
+                      <position x="0" y="0" />
+                      <alternativeText>
+                        <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+                      </alternativeText>
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/fbdelementtype" handleUnknown="implementation">
+                          <ElementType xmlns="">networktitle</ElementType>
+                        </data>
+                      </addData>
+                    </vendorElement>
+                    <contact localId="3" negated="false" storage="none" edge="none">
+                      <position x="0" y="0" />
+                      <connectionPointIn>
+                        <connection refLocalId="0" />
+                      </connectionPointIn>
+                      <connectionPointOut />
+                      <variable>ped_btn</variable>
+                    </contact>
+                    <coil localId="4" negated="false" storage="set">
+                      <position x="0" y="0" />
+                      <connectionPointIn>
+                        <connection refLocalId="3" />
+                      </connectionPointIn>
+                      <connectionPointOut />
+                      <variable>ped_cal</variable>
+                    </coil>
+                    <comment localId="5" height="0" width="0">
+                      <position x="0" y="0" />
+                      <content>
+                        <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+                      </content>
+                    </comment>
+                    <vendorElement localId="6">
+                      <position x="0" y="0" />
+                      <alternativeText>
+                        <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+                      </alternativeText>
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/fbdelementtype" handleUnknown="implementation">
+                          <ElementType xmlns="">networktitle</ElementType>
+                        </data>
+                      </addData>
+                    </vendorElement>
+                    <contact localId="7" negated="false" storage="none" edge="none">
+                      <position x="0" y="0" />
+                      <connectionPointIn>
+                        <connection refLocalId="0" />
+                      </connectionPointIn>
+                      <connectionPointOut />
+                      <variable>ped_cal</variable>
+                    </contact>
+                    <inVariable localId="10">
+                      <position x="0" y="0" />
+                      <connectionPointOut />
+                      <expression>1</expression>
+                    </inVariable>
+                    <block localId="9" typeName="MOVE">
+                      <position x="0" y="0" />
+                      <inputVariables>
+                        <variable formalParameter="EN">
+                          <connectionPointIn>
+                            <connection refLocalId="7" />
+                          </connectionPointIn>
+                        </variable>
+                        <variable formalParameter="In2">
+                          <connectionPointIn>
+                            <connection refLocalId="10" />
+                          </connectionPointIn>
+                        </variable>
+                      </inputVariables>
+                      <inOutVariables />
+                      <outputVariables>
+                        <variable formalParameter="ENO">
+                          <connectionPointOut />
+                        </variable>
+                        <variable formalParameter="Out2">
+                          <connectionPointOut>
+                            <expression>Enum_carSL</expression>
+                          </connectionPointOut>
+                        </variable>
+                      </outputVariables>
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/fbdcalltype" handleUnknown="implementation">
+                          <CallType xmlns="">operator</CallType>
+                        </data>
+                        <data name="http://www.3s-software.com/plcopenxml/inputparamtypes" handleUnknown="implementation">
+                          <InputParamTypes xmlns="">BOOL</InputParamTypes>
+                        </data>
+                      </addData>
+                    </block>
+                    <inVariable localId="11">
+                      <position x="0" y="0" />
+                      <connectionPointOut />
+                      <expression>car_yellowTime</expression>
+                    </inVariable>
+                    <block localId="8" typeName="TON" instanceName="TON_carYellowTime">
+                      <position x="0" y="0" />
+                      <inputVariables>
+                        <variable formalParameter="IN">
+                          <connectionPointIn>
+                            <connection refLocalId="9" formalParameter="ENO" />
+                          </connectionPointIn>
+                        </variable>
+                        <variable formalParameter="PT">
+                          <connectionPointIn>
+                            <connection refLocalId="11" />
+                          </connectionPointIn>
+                        </variable>
+                      </inputVariables>
+                      <inOutVariables />
+                      <outputVariables>
+                        <variable formalParameter="Q">
+                          <connectionPointOut />
+                        </variable>
+                        <variable formalParameter="ET">
+                          <connectionPointOut>
+                            <expression />
+                          </connectionPointOut>
+                        </variable>
+                      </outputVariables>
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/fbdcalltype" handleUnknown="implementation">
+                          <CallType xmlns="">functionblock</CallType>
+                        </data>
+                        <data name="http://www.3s-software.com/plcopenxml/inputparamtypes" handleUnknown="implementation">
+                          <InputParamTypes xmlns="">BOOL TIME</InputParamTypes>
+                        </data>
+                      </addData>
+                    </block>
+                    <inVariable localId="13">
+                      <position x="0" y="0" />
+                      <connectionPointOut />
+                      <expression>0</expression>
+                    </inVariable>
+                    <block localId="12" typeName="MOVE">
+                      <position x="0" y="0" />
+                      <inputVariables>
+                        <variable formalParameter="EN">
+                          <connectionPointIn>
+                            <connection refLocalId="8" formalParameter="Q" />
+                          </connectionPointIn>
+                        </variable>
+                        <variable formalParameter="In2">
+                          <connectionPointIn>
+                            <connection refLocalId="13" />
+                          </connectionPointIn>
+                        </variable>
+                      </inputVariables>
+                      <inOutVariables />
+                      <outputVariables>
+                        <variable formalParameter="ENO">
+                          <connectionPointOut />
+                        </variable>
+                        <variable formalParameter="Out2">
+                          <connectionPointOut>
+                            <expression>Enum_carSL</expression>
+                          </connectionPointOut>
+                        </variable>
+                      </outputVariables>
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/fbdcalltype" handleUnknown="implementation">
+                          <CallType xmlns="">operator</CallType>
+                        </data>
+                        <data name="http://www.3s-software.com/plcopenxml/inputparamtypes" handleUnknown="implementation">
+                          <InputParamTypes xmlns="">BOOL</InputParamTypes>
+                        </data>
+                      </addData>
+                    </block>
+                    <inVariable localId="18">
+                      <position x="0" y="0" />
+                      <connectionPointOut />
+                      <expression>2</expression>
+                    </inVariable>
+                    <block localId="17" typeName="MOVE">
+                      <position x="0" y="0" />
+                      <inputVariables>
+                        <variable formalParameter="EN">
+                          <connectionPointIn>
+                            <connection refLocalId="8" formalParameter="Q" />
+                          </connectionPointIn>
+                        </variable>
+                        <variable formalParameter="In2">
+                          <connectionPointIn>
+                            <connection refLocalId="18" />
+                          </connectionPointIn>
+                        </variable>
+                      </inputVariables>
+                      <inOutVariables />
+                      <outputVariables>
+                        <variable formalParameter="ENO">
+                          <connectionPointOut />
+                        </variable>
+                        <variable formalParameter="Out2">
+                          <connectionPointOut>
+                            <expression>Enum_pedSL</expression>
+                          </connectionPointOut>
+                        </variable>
+                      </outputVariables>
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/fbdcalltype" handleUnknown="implementation">
+                          <CallType xmlns="">operator</CallType>
+                        </data>
+                        <data name="http://www.3s-software.com/plcopenxml/inputparamtypes" handleUnknown="implementation">
+                          <InputParamTypes xmlns="">BOOL</InputParamTypes>
+                        </data>
+                      </addData>
+                    </block>
+                    <inVariable localId="19">
+                      <position x="0" y="0" />
+                      <connectionPointOut />
+                      <expression>ped_greenTime</expression>
+                    </inVariable>
+                    <block localId="16" typeName="TON" instanceName="TON_pedGreenTime">
+                      <position x="0" y="0" />
+                      <inputVariables>
+                        <variable formalParameter="IN">
+                          <connectionPointIn>
+                            <connection refLocalId="17" formalParameter="ENO" />
+                          </connectionPointIn>
+                        </variable>
+                        <variable formalParameter="PT">
+                          <connectionPointIn>
+                            <connection refLocalId="19" />
+                          </connectionPointIn>
+                        </variable>
+                      </inputVariables>
+                      <inOutVariables />
+                      <outputVariables>
+                        <variable formalParameter="Q">
+                          <connectionPointOut />
+                        </variable>
+                        <variable formalParameter="ET">
+                          <connectionPointOut>
+                            <expression />
+                          </connectionPointOut>
+                        </variable>
+                      </outputVariables>
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/fbdcalltype" handleUnknown="implementation">
+                          <CallType xmlns="">functionblock</CallType>
+                        </data>
+                        <data name="http://www.3s-software.com/plcopenxml/inputparamtypes" handleUnknown="implementation">
+                          <InputParamTypes xmlns="">BOOL TIME</InputParamTypes>
+                        </data>
+                      </addData>
+                    </block>
+                    <inVariable localId="20">
+                      <position x="0" y="0" />
+                      <connectionPointOut />
+                      <expression>1</expression>
+                    </inVariable>
+                    <block localId="15" typeName="MOVE">
+                      <position x="0" y="0" />
+                      <inputVariables>
+                        <variable formalParameter="EN">
+                          <connectionPointIn>
+                            <connection refLocalId="16" formalParameter="Q" />
+                          </connectionPointIn>
+                        </variable>
+                        <variable formalParameter="In2">
+                          <connectionPointIn>
+                            <connection refLocalId="20" />
+                          </connectionPointIn>
+                        </variable>
+                      </inputVariables>
+                      <inOutVariables />
+                      <outputVariables>
+                        <variable formalParameter="ENO">
+                          <connectionPointOut />
+                        </variable>
+                        <variable formalParameter="Out2">
+                          <connectionPointOut>
+                            <expression>Enum_pedSL</expression>
+                          </connectionPointOut>
+                        </variable>
+                      </outputVariables>
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/fbdcalltype" handleUnknown="implementation">
+                          <CallType xmlns="">operator</CallType>
+                        </data>
+                        <data name="http://www.3s-software.com/plcopenxml/inputparamtypes" handleUnknown="implementation">
+                          <InputParamTypes xmlns="">BOOL</InputParamTypes>
+                        </data>
+                      </addData>
+                    </block>
+                    <inVariable localId="21">
+                      <position x="0" y="0" />
+                      <connectionPointOut />
+                      <expression>ped_yellowTime</expression>
+                    </inVariable>
+                    <block localId="14" typeName="TON" instanceName="TON_pedYellowTime">
+                      <position x="0" y="0" />
+                      <inputVariables>
+                        <variable formalParameter="IN">
+                          <connectionPointIn>
+                            <connection refLocalId="15" formalParameter="ENO" />
+                          </connectionPointIn>
+                        </variable>
+                        <variable formalParameter="PT">
+                          <connectionPointIn>
+                            <connection refLocalId="21" />
+                          </connectionPointIn>
+                        </variable>
+                      </inputVariables>
+                      <inOutVariables />
+                      <outputVariables>
+                        <variable formalParameter="Q">
+                          <connectionPointOut />
+                        </variable>
+                        <variable formalParameter="ET">
+                          <connectionPointOut>
+                            <expression />
+                          </connectionPointOut>
+                        </variable>
+                      </outputVariables>
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/fbdcalltype" handleUnknown="implementation">
+                          <CallType xmlns="">functionblock</CallType>
+                        </data>
+                        <data name="http://www.3s-software.com/plcopenxml/inputparamtypes" handleUnknown="implementation">
+                          <InputParamTypes xmlns="">BOOL TIME</InputParamTypes>
+                        </data>
+                      </addData>
+                    </block>
+                    <inVariable localId="23">
+                      <position x="0" y="0" />
+                      <connectionPointOut />
+                      <expression>2</expression>
+                    </inVariable>
+                    <block localId="22" typeName="MOVE">
+                      <position x="0" y="0" />
+                      <inputVariables>
+                        <variable formalParameter="EN">
+                          <connectionPointIn>
+                            <connection refLocalId="14" formalParameter="Q" />
+                          </connectionPointIn>
+                        </variable>
+                        <variable formalParameter="In2">
+                          <connectionPointIn>
+                            <connection refLocalId="23" />
+                          </connectionPointIn>
+                        </variable>
+                      </inputVariables>
+                      <inOutVariables />
+                      <outputVariables>
+                        <variable formalParameter="ENO">
+                          <connectionPointOut />
+                        </variable>
+                        <variable formalParameter="Out2">
+                          <connectionPointOut>
+                            <expression>Enum_carSL</expression>
+                          </connectionPointOut>
+                        </variable>
+                      </outputVariables>
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/fbdcalltype" handleUnknown="implementation">
+                          <CallType xmlns="">operator</CallType>
+                        </data>
+                        <data name="http://www.3s-software.com/plcopenxml/inputparamtypes" handleUnknown="implementation">
+                          <InputParamTypes xmlns="">BOOL</InputParamTypes>
+                        </data>
+                      </addData>
+                    </block>
+                    <coil localId="24" negated="false" storage="reset">
+                      <position x="0" y="0" />
+                      <connectionPointIn>
+                        <connection refLocalId="22" formalParameter="ENO" />
+                      </connectionPointIn>
+                      <connectionPointOut />
+                      <variable>ped_cal</variable>
+                    </coil>
+                    <inVariable localId="26">
+                      <position x="0" y="0" />
+                      <connectionPointOut />
+                      <expression>0</expression>
+                    </inVariable>
+                    <block localId="25" typeName="MOVE">
+                      <position x="0" y="0" />
+                      <inputVariables>
+                        <variable formalParameter="EN">
+                          <connectionPointIn>
+                            <connection refLocalId="14" formalParameter="Q" />
+                          </connectionPointIn>
+                        </variable>
+                        <variable formalParameter="In2">
+                          <connectionPointIn>
+                            <connection refLocalId="26" />
+                          </connectionPointIn>
+                        </variable>
+                      </inputVariables>
+                      <inOutVariables />
+                      <outputVariables>
+                        <variable formalParameter="ENO">
+                          <connectionPointOut />
+                        </variable>
+                        <variable formalParameter="Out2">
+                          <connectionPointOut>
+                            <expression>Enum_pedSL</expression>
+                          </connectionPointOut>
+                        </variable>
+                      </outputVariables>
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/fbdcalltype" handleUnknown="implementation">
+                          <CallType xmlns="">operator</CallType>
+                        </data>
+                        <data name="http://www.3s-software.com/plcopenxml/inputparamtypes" handleUnknown="implementation">
+                          <InputParamTypes xmlns="">BOOL</InputParamTypes>
+                        </data>
+                      </addData>
+                    </block>
+                    <block localId="27" typeName="EXECUTE">
+                      <position x="0" y="0" />
+                      <inputVariables>
+                        <variable formalParameter="EN">
+                          <connectionPointIn>
+                            <connection refLocalId="7" />
+                          </connectionPointIn>
+                        </variable>
+                      </inputVariables>
+                      <inOutVariables />
+                      <outputVariables>
+                        <variable formalParameter="ENO">
+                          <connectionPointOut />
+                        </variable>
+                      </outputVariables>
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/fbdcalltype" handleUnknown="implementation">
+                          <CallType xmlns="">execute</CallType>
+                        </data>
+                        <data name="http://www.3s-software.com/plcopenxml/stcode" handleUnknown="implementation">
+                          <STCode xmlns="">IF Enum_pedSL = Enum_stoplight.Off THEN
+   Enum_pedSL := Enum_stoplight.Yellow;
+END_IF</STCode>
+                        </data>
+                        <data name="http://www.3s-software.com/plcopenxml/inputparamtypes" handleUnknown="implementation">
+                          <InputParamTypes xmlns="">BOOL</InputParamTypes>
+                        </data>
+                      </addData>
+                    </block>
+                    <comment localId="28" height="0" width="0">
+                      <position x="0" y="0" />
+                      <content>
+                        <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+                      </content>
+                    </comment>
+                    <vendorElement localId="29">
+                      <position x="0" y="0" />
+                      <alternativeText>
+                        <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+                      </alternativeText>
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/fbdelementtype" handleUnknown="implementation">
+                          <ElementType xmlns="">networktitle</ElementType>
+                        </data>
+                      </addData>
+                    </vendorElement>
+                    <contact localId="30" negated="true" storage="none" edge="none">
+                      <position x="0" y="0" />
+                      <connectionPointIn>
+                        <connection refLocalId="0" />
+                      </connectionPointIn>
+                      <connectionPointOut />
+                      <variable>ped_cal</variable>
+                    </contact>
+                    <contact localId="31" negated="true" storage="none" edge="none">
+                      <position x="0" y="0" />
+                      <connectionPointIn>
+                        <connection refLocalId="30" />
+                      </connectionPointIn>
+                      <connectionPointOut />
+                      <variable>night_btn</variable>
+                    </contact>
+                    <inVariable localId="33">
+                      <position x="0" y="0" />
+                      <connectionPointOut />
+                      <expression>0</expression>
+                    </inVariable>
+                    <block localId="32" typeName="MOVE">
+                      <position x="0" y="0" />
+                      <inputVariables>
+                        <variable formalParameter="EN">
+                          <connectionPointIn>
+                            <connection refLocalId="31" />
+                          </connectionPointIn>
+                        </variable>
+                        <variable formalParameter="In2">
+                          <connectionPointIn>
+                            <connection refLocalId="33" />
+                          </connectionPointIn>
+                        </variable>
+                      </inputVariables>
+                      <inOutVariables />
+                      <outputVariables>
+                        <variable formalParameter="ENO">
+                          <connectionPointOut />
+                        </variable>
+                        <variable formalParameter="Out2">
+                          <connectionPointOut>
+                            <expression>Enum_pedSL</expression>
+                          </connectionPointOut>
+                        </variable>
+                      </outputVariables>
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/fbdcalltype" handleUnknown="implementation">
+                          <CallType xmlns="">operator</CallType>
+                        </data>
+                        <data name="http://www.3s-software.com/plcopenxml/inputparamtypes" handleUnknown="implementation">
+                          <InputParamTypes xmlns="">BOOL</InputParamTypes>
+                        </data>
+                      </addData>
+                    </block>
+                    <inVariable localId="35">
+                      <position x="0" y="0" />
+                      <connectionPointOut />
+                      <expression>2</expression>
+                    </inVariable>
+                    <block localId="34" typeName="MOVE">
+                      <position x="0" y="0" />
+                      <inputVariables>
+                        <variable formalParameter="EN">
+                          <connectionPointIn>
+                            <connection refLocalId="31" />
+                          </connectionPointIn>
+                        </variable>
+                        <variable formalParameter="In2">
+                          <connectionPointIn>
+                            <connection refLocalId="35" />
+                          </connectionPointIn>
+                        </variable>
+                      </inputVariables>
+                      <inOutVariables />
+                      <outputVariables>
+                        <variable formalParameter="ENO">
+                          <connectionPointOut />
+                        </variable>
+                        <variable formalParameter="Out2">
+                          <connectionPointOut>
+                            <expression>Enum_carSL</expression>
+                          </connectionPointOut>
+                        </variable>
+                      </outputVariables>
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/fbdcalltype" handleUnknown="implementation">
+                          <CallType xmlns="">operator</CallType>
+                        </data>
+                        <data name="http://www.3s-software.com/plcopenxml/inputparamtypes" handleUnknown="implementation">
+                          <InputParamTypes xmlns="">BOOL</InputParamTypes>
+                        </data>
+                      </addData>
+                    </block>
+                    <comment localId="36" height="0" width="0">
+                      <position x="0" y="0" />
+                      <content>
+                        <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+                      </content>
+                    </comment>
+                    <vendorElement localId="37">
+                      <position x="0" y="0" />
+                      <alternativeText>
+                        <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+                      </alternativeText>
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/fbdelementtype" handleUnknown="implementation">
+                          <ElementType xmlns="">networktitle</ElementType>
+                        </data>
+                      </addData>
+                    </vendorElement>
+                    <contact localId="38" negated="true" storage="none" edge="none">
+                      <position x="0" y="0" />
+                      <connectionPointIn>
+                        <connection refLocalId="0" />
+                      </connectionPointIn>
+                      <connectionPointOut />
+                      <variable>ped_cal</variable>
+                    </contact>
+                    <contact localId="39" negated="false" storage="none" edge="none">
+                      <position x="0" y="0" />
+                      <connectionPointIn>
+                        <connection refLocalId="38" />
+                      </connectionPointIn>
+                      <connectionPointOut />
+                      <variable>night_btn</variable>
+                    </contact>
+                    <contact localId="40" negated="true" storage="none" edge="none">
+                      <position x="0" y="0" />
+                      <connectionPointIn>
+                        <connection refLocalId="39" />
+                      </connectionPointIn>
+                      <connectionPointOut />
+                      <variable>night_yellowOn</variable>
+                    </contact>
+                    <inVariable localId="42">
+                      <position x="0" y="0" />
+                      <connectionPointOut />
+                      <expression>night_pulsingTime</expression>
+                    </inVariable>
+                    <block localId="41" typeName="TON" instanceName="TON_yellowLightOn">
+                      <position x="0" y="0" />
+                      <inputVariables>
+                        <variable formalParameter="IN">
+                          <connectionPointIn>
+                            <connection refLocalId="40" />
+                          </connectionPointIn>
+                        </variable>
+                        <variable formalParameter="PT">
+                          <connectionPointIn>
+                            <connection refLocalId="42" />
+                          </connectionPointIn>
+                        </variable>
+                      </inputVariables>
+                      <inOutVariables />
+                      <outputVariables>
+                        <variable formalParameter="Q">
+                          <connectionPointOut />
+                        </variable>
+                        <variable formalParameter="ET">
+                          <connectionPointOut>
+                            <expression />
+                          </connectionPointOut>
+                        </variable>
+                      </outputVariables>
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/fbdcalltype" handleUnknown="implementation">
+                          <CallType xmlns="">functionblock</CallType>
+                        </data>
+                        <data name="http://www.3s-software.com/plcopenxml/inputparamtypes" handleUnknown="implementation">
+                          <InputParamTypes xmlns="">BOOL TIME</InputParamTypes>
+                        </data>
+                      </addData>
+                    </block>
+                    <coil localId="43" negated="false" storage="set">
+                      <position x="0" y="0" />
+                      <connectionPointIn>
+                        <connection refLocalId="41" formalParameter="Q" />
+                      </connectionPointIn>
+                      <connectionPointOut />
+                      <variable>night_yellowOn</variable>
+                    </coil>
+                    <inVariable localId="46">
+                      <position x="0" y="0" />
+                      <connectionPointOut />
+                      <expression>1</expression>
+                    </inVariable>
+                    <block localId="45" typeName="MOVE">
+                      <position x="0" y="0" />
+                      <inputVariables>
+                        <variable formalParameter="EN">
+                          <connectionPointIn>
+                            <connection refLocalId="40" />
+                          </connectionPointIn>
+                        </variable>
+                        <variable formalParameter="In2">
+                          <connectionPointIn>
+                            <connection refLocalId="46" />
+                          </connectionPointIn>
+                        </variable>
+                      </inputVariables>
+                      <inOutVariables />
+                      <outputVariables>
+                        <variable formalParameter="ENO">
+                          <connectionPointOut />
+                        </variable>
+                        <variable formalParameter="Out2">
+                          <connectionPointOut>
+                            <expression>Enum_carSL</expression>
+                          </connectionPointOut>
+                        </variable>
+                      </outputVariables>
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/fbdcalltype" handleUnknown="implementation">
+                          <CallType xmlns="">operator</CallType>
+                        </data>
+                        <data name="http://www.3s-software.com/plcopenxml/inputparamtypes" handleUnknown="implementation">
+                          <InputParamTypes xmlns="">BOOL</InputParamTypes>
+                        </data>
+                      </addData>
+                    </block>
+                    <inVariable localId="47">
+                      <position x="0" y="0" />
+                      <connectionPointOut />
+                      <expression>1</expression>
+                    </inVariable>
+                    <block localId="44" typeName="MOVE">
+                      <position x="0" y="0" />
+                      <inputVariables>
+                        <variable formalParameter="EN">
+                          <connectionPointIn>
+                            <connection refLocalId="45" formalParameter="ENO" />
+                          </connectionPointIn>
+                        </variable>
+                        <variable formalParameter="In2">
+                          <connectionPointIn>
+                            <connection refLocalId="47" />
+                          </connectionPointIn>
+                        </variable>
+                      </inputVariables>
+                      <inOutVariables />
+                      <outputVariables>
+                        <variable formalParameter="ENO">
+                          <connectionPointOut />
+                        </variable>
+                        <variable formalParameter="Out2">
+                          <connectionPointOut>
+                            <expression>Enum_pedSL</expression>
+                          </connectionPointOut>
+                        </variable>
+                      </outputVariables>
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/fbdcalltype" handleUnknown="implementation">
+                          <CallType xmlns="">operator</CallType>
+                        </data>
+                        <data name="http://www.3s-software.com/plcopenxml/inputparamtypes" handleUnknown="implementation">
+                          <InputParamTypes xmlns="">BOOL</InputParamTypes>
+                        </data>
+                      </addData>
+                    </block>
+                    <contact localId="48" negated="false" storage="none" edge="none">
+                      <position x="0" y="0" />
+                      <connectionPointIn>
+                        <connection refLocalId="39" />
+                      </connectionPointIn>
+                      <connectionPointOut />
+                      <variable>night_yellowOn</variable>
+                    </contact>
+                    <inVariable localId="50">
+                      <position x="0" y="0" />
+                      <connectionPointOut />
+                      <expression>night_pulsingTime</expression>
+                    </inVariable>
+                    <block localId="49" typeName="TON" instanceName="TON_yellowLightOff">
+                      <position x="0" y="0" />
+                      <inputVariables>
+                        <variable formalParameter="IN">
+                          <connectionPointIn>
+                            <connection refLocalId="48" />
+                          </connectionPointIn>
+                        </variable>
+                        <variable formalParameter="PT">
+                          <connectionPointIn>
+                            <connection refLocalId="50" />
+                          </connectionPointIn>
+                        </variable>
+                      </inputVariables>
+                      <inOutVariables />
+                      <outputVariables>
+                        <variable formalParameter="Q">
+                          <connectionPointOut />
+                        </variable>
+                        <variable formalParameter="ET">
+                          <connectionPointOut>
+                            <expression />
+                          </connectionPointOut>
+                        </variable>
+                      </outputVariables>
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/fbdcalltype" handleUnknown="implementation">
+                          <CallType xmlns="">functionblock</CallType>
+                        </data>
+                        <data name="http://www.3s-software.com/plcopenxml/inputparamtypes" handleUnknown="implementation">
+                          <InputParamTypes xmlns="">BOOL TIME</InputParamTypes>
+                        </data>
+                      </addData>
+                    </block>
+                    <coil localId="51" negated="false" storage="reset">
+                      <position x="0" y="0" />
+                      <connectionPointIn>
+                        <connection refLocalId="49" formalParameter="Q" />
+                      </connectionPointIn>
+                      <connectionPointOut />
+                      <variable>night_yellowOn</variable>
+                    </coil>
+                    <inVariable localId="54">
+                      <position x="0" y="0" />
+                      <connectionPointOut />
+                      <expression>3</expression>
+                    </inVariable>
+                    <block localId="53" typeName="MOVE">
+                      <position x="0" y="0" />
+                      <inputVariables>
+                        <variable formalParameter="EN">
+                          <connectionPointIn>
+                            <connection refLocalId="48" />
+                          </connectionPointIn>
+                        </variable>
+                        <variable formalParameter="In2">
+                          <connectionPointIn>
+                            <connection refLocalId="54" />
+                          </connectionPointIn>
+                        </variable>
+                      </inputVariables>
+                      <inOutVariables />
+                      <outputVariables>
+                        <variable formalParameter="ENO">
+                          <connectionPointOut />
+                        </variable>
+                        <variable formalParameter="Out2">
+                          <connectionPointOut>
+                            <expression>Enum_carSL</expression>
+                          </connectionPointOut>
+                        </variable>
+                      </outputVariables>
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/fbdcalltype" handleUnknown="implementation">
+                          <CallType xmlns="">operator</CallType>
+                        </data>
+                        <data name="http://www.3s-software.com/plcopenxml/inputparamtypes" handleUnknown="implementation">
+                          <InputParamTypes xmlns="">BOOL</InputParamTypes>
+                        </data>
+                      </addData>
+                    </block>
+                    <inVariable localId="55">
+                      <position x="0" y="0" />
+                      <connectionPointOut />
+                      <expression>3</expression>
+                    </inVariable>
+                    <block localId="52" typeName="MOVE">
+                      <position x="0" y="0" />
+                      <inputVariables>
+                        <variable formalParameter="EN">
+                          <connectionPointIn>
+                            <connection refLocalId="53" formalParameter="ENO" />
+                          </connectionPointIn>
+                        </variable>
+                        <variable formalParameter="In2">
+                          <connectionPointIn>
+                            <connection refLocalId="55" />
+                          </connectionPointIn>
+                        </variable>
+                      </inputVariables>
+                      <inOutVariables />
+                      <outputVariables>
+                        <variable formalParameter="ENO">
+                          <connectionPointOut />
+                        </variable>
+                        <variable formalParameter="Out2">
+                          <connectionPointOut>
+                            <expression>Enum_pedSL</expression>
+                          </connectionPointOut>
+                        </variable>
+                      </outputVariables>
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/fbdcalltype" handleUnknown="implementation">
+                          <CallType xmlns="">operator</CallType>
+                        </data>
+                        <data name="http://www.3s-software.com/plcopenxml/inputparamtypes" handleUnknown="implementation">
+                          <InputParamTypes xmlns="">BOOL</InputParamTypes>
+                        </data>
+                      </addData>
+                    </block>
+                    <comment localId="56" height="0" width="0">
+                      <position x="0" y="0" />
+                      <content>
+                        <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+                      </content>
+                    </comment>
+                    <label localId="57" label="Update">
+                      <position x="0" y="0" />
+                    </label>
+                    <vendorElement localId="58">
+                      <position x="0" y="0" />
+                      <alternativeText>
+                        <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+                      </alternativeText>
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/fbdelementtype" handleUnknown="implementation">
+                          <ElementType xmlns="">networktitle</ElementType>
+                        </data>
+                      </addData>
+                    </vendorElement>
+                    <inVariable localId="60">
+                      <position x="0" y="0" />
+                      <connectionPointOut />
+                      <expression>Enum_carSL</expression>
+                    </inVariable>
+                    <block localId="59" typeName="EnumToStruct">
+                      <position x="0" y="0" />
+                      <inputVariables>
+                        <variable formalParameter="EN">
+                          <connectionPointIn>
+                            <connection refLocalId="0" />
+                          </connectionPointIn>
+                        </variable>
+                        <variable formalParameter="InState">
+                          <connectionPointIn>
+                            <connection refLocalId="60" />
+                          </connectionPointIn>
+                        </variable>
+                      </inputVariables>
+                      <inOutVariables />
+                      <outputVariables>
+                        <variable formalParameter="ENO">
+                          <connectionPointOut />
+                        </variable>
+                        <variable formalParameter="   ">
+                          <connectionPointOut>
+                            <expression>car_stoplight</expression>
+                          </connectionPointOut>
+                        </variable>
+                      </outputVariables>
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/fbdcalltype" handleUnknown="implementation">
+                          <CallType xmlns="">function</CallType>
+                        </data>
+                        <data name="http://www.3s-software.com/plcopenxml/inputparamtypes" handleUnknown="implementation">
+                          <InputParamTypes xmlns="">BOOL Enum_state</InputParamTypes>
+                        </data>
+                      </addData>
+                    </block>
+                    <comment localId="61" height="0" width="0">
+                      <position x="0" y="0" />
+                      <content>
+                        <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+                      </content>
+                    </comment>
+                    <vendorElement localId="62">
+                      <position x="0" y="0" />
+                      <alternativeText>
+                        <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+                      </alternativeText>
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/fbdelementtype" handleUnknown="implementation">
+                          <ElementType xmlns="">networktitle</ElementType>
+                        </data>
+                      </addData>
+                    </vendorElement>
+                    <inVariable localId="64">
+                      <position x="0" y="0" />
+                      <connectionPointOut />
+                      <expression>Enum_pedSL</expression>
+                    </inVariable>
+                    <block localId="63" typeName="EnumToStruct">
+                      <position x="0" y="0" />
+                      <inputVariables>
+                        <variable formalParameter="EN">
+                          <connectionPointIn>
+                            <connection refLocalId="0" />
+                          </connectionPointIn>
+                        </variable>
+                        <variable formalParameter="InState">
+                          <connectionPointIn>
+                            <connection refLocalId="64" />
+                          </connectionPointIn>
+                        </variable>
+                      </inputVariables>
+                      <inOutVariables />
+                      <outputVariables>
+                        <variable formalParameter="ENO">
+                          <connectionPointOut />
+                        </variable>
+                        <variable formalParameter="   ">
+                          <connectionPointOut>
+                            <expression>ped_stoplight</expression>
+                          </connectionPointOut>
+                        </variable>
+                      </outputVariables>
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/fbdcalltype" handleUnknown="implementation">
+                          <CallType xmlns="">function</CallType>
+                        </data>
+                        <data name="http://www.3s-software.com/plcopenxml/inputparamtypes" handleUnknown="implementation">
+                          <InputParamTypes xmlns="">BOOL Enum_state</InputParamTypes>
+                        </data>
+                      </addData>
+                    </block>
+                    <rightPowerRail localId="2147483646">
+                      <position x="0" y="0" />
+                      <connectionPointIn />
+                    </rightPowerRail>
+                  </LD>
+                </body>
+                <addData>
+                  <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+                    <ObjectId>a096c61d-1036-4c96-9981-3f612e366ca0</ObjectId>
+                  </data>
+                </addData>
+              </pou>
+            </data>
+            <data name="http://www.3s-software.com/plcopenxml/pou" handleUnknown="implementation">
+              <pou name="EnumToStruct" pouType="function">
+                <interface>
+                  <returnType>
+                    <derived name="Struct_stoplight" />
+                  </returnType>
+                  <inputVars>
+                    <variable name="InState">
+                      <type>
+                        <derived name="Enum_stoplight" />
+                      </type>
+                    </variable>
+                  </inputVars>
+                </interface>
+                <body>
+                  <ST>
+                    <xhtml xmlns="http://www.w3.org/1999/xhtml">EnumToStruct.Red    := FALSE;
+EnumToStruct.Yellow := FALSE;
+EnumToStruct.Green  := FALSE;
+EnumToStruct.Off    := FALSE;
+
+CASE InState OF
+    Enum_stoplight.Red:    EnumToStruct.Red := TRUE;
+    Enum_stoplight.Yellow: EnumToStruct.Yellow := TRUE;
+    Enum_stoplight.Green:  EnumToStruct.Green := TRUE;
+	Enum_stoplight.Off:  EnumToStruct.Off := TRUE;
+END_CASE</xhtml>
+                  </ST>
+                </body>
+                <addData>
+                  <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+                    <ObjectId>a55f50fc-d339-4b7f-99ba-9cc0984737cb</ObjectId>
+                  </data>
+                </addData>
+              </pou>
+            </data>
+            <data name="http://www.3s-software.com/plcopenxml/libraries" handleUnknown="implementation">
+              <Libraries>
+                <Library Name="#IoStandard" Namespace="IoStandard" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="true" DefaultResolution="IoStandard, 3.5.17.0 (System)" />
+                <Library Name="#3SLicense" Namespace="_3S_LICENSE" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="3SLicense, 0.0.0.0 (CODESYS)" ResolverGuid="97c3b452-d9fa-4ac2-9d0c-3d420aa6d95b" />
+                <Library Name="#CAA Device Diagnosis" Namespace="DED" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="CAA Device Diagnosis, 3.5.21.0 (CAA Technical Workgroup)" />
+                <Library Name="#Standard" Namespace="Standard" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="false" LinkAllContent="false" DefaultResolution="Standard, * (System)" />
+                <Library Name="#BreakpointLogging" Namespace="BPLog" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="Breakpoint Logging Functions, * (3S - Smart Software Solutions GmbH)" />
+                <Library Name="#System_VisuElems" Namespace="VisuElems" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="VisuElems, 4.8.0.0 (System)" ResolverGuid="2717eb6a-dd07-4c66-8d8d-cacebd7b18ae" />
+                <Library Name="#System_VisuElemMeter" Namespace="VisuElemMeter" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="VisuElemMeter, 4.7.0.0 (System)" ResolverGuid="2717eb6a-dd07-4c66-8d8d-cacebd7b18ae" />
+                <Library Name="#System_VisuElemsSpecialControls" Namespace="VisuElemsSpecialControls" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="VisuElemsSpecialControls, 4.7.0.0 (System)" ResolverGuid="2717eb6a-dd07-4c66-8d8d-cacebd7b18ae" />
+                <Library Name="#System_VisuElemsWinControls" Namespace="VisuElemsWinControls" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="VisuElemsWinControls, 4.8.0.0 (System)" ResolverGuid="2717eb6a-dd07-4c66-8d8d-cacebd7b18ae" />
+                <Library Name="#System_VisuElemTextEditor" Namespace="VisuElemTextEditor" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="VisuElemTextEditor, 4.8.0.0 (System)" ResolverGuid="2717eb6a-dd07-4c66-8d8d-cacebd7b18ae" />
+                <Library Name="#System_VisuElemTrace" Namespace="VisuElemTrace" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="VisuElemTrace, 4.8.0.0 (System)" ResolverGuid="2717eb6a-dd07-4c66-8d8d-cacebd7b18ae" />
+                <Library Name="#System_VisuNativeControl" Namespace="VisuNativeControl" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="VisuNativeControl, 4.8.0.0 (System)" ResolverGuid="2717eb6a-dd07-4c66-8d8d-cacebd7b18ae" />
+                <Library Name="#System_VisuElemsAlarm" Namespace="VisuElemsAlarm" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="VisuElemsAlarm, 4.8.0.0 (System)" ResolverGuid="2717eb6a-dd07-4c66-8d8d-cacebd7b18ae" />
+                <Library Name="#System_VisuElemCamDisplayer" Namespace="VisuElemCamDisplayer" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="VisuElemCamDisplayer, 4.7.0.0 (System)" ResolverGuid="2717eb6a-dd07-4c66-8d8d-cacebd7b18ae" />
+                <Library Name="#System_VisuElem3DPath" Namespace="VisuElem3DPath" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="VisuElem3DPath, 4.7.0.0 (System)" ResolverGuid="2717eb6a-dd07-4c66-8d8d-cacebd7b18ae" />
+                <Library Name="#System_VisuElemsDateTime" Namespace="VisuElemsDateTime" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="VisuElemsDateTime, 4.8.0.0 (System)" ResolverGuid="2717eb6a-dd07-4c66-8d8d-cacebd7b18ae" />
+                <Library Name="#System_VisuElemXYChart" Namespace="VisuElemXYChart" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="VisuElemXYChart, 4.8.0.0 (System)" ResolverGuid="2717eb6a-dd07-4c66-8d8d-cacebd7b18ae" />
+                <Library Name="#System_VisuInputs" Namespace="VisuInputs" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="VisuInputs, 4.7.0.0 (System)" ResolverGuid="2717eb6a-dd07-4c66-8d8d-cacebd7b18ae" />
+                <PlaceholderRedirections>
+                  <PlaceholderRedirection Placeholder="VisuSymbols" Redirection="VisuSymbols, 4.5.0.0 (System)" />
+                  <PlaceholderRedirection Placeholder="Standard" Redirection="Standard, 3.5.18.0 (System)" />
+                  <PlaceholderRedirection Placeholder="Standard64" Redirection="Standard64, 3.5.20.0 (System)" />
+                  <PlaceholderRedirection Placeholder="Util" Redirection="Util, 3.5.21.0 (System)" />
+                  <PlaceholderRedirection Placeholder="StringUtils" Redirection="StringUtils, 3.5.20.0 (System)" />
+                  <PlaceholderRedirection Placeholder="MemoryBlockManager" Redirection="Memory Block Manager, 3.5.21.0 (CODESYS)" />
+                  <PlaceholderRedirection Placeholder="Collections" Redirection="Collections, 3.5.17.0 (System)" />
+                  <PlaceholderRedirection Placeholder="FloatingPointUtils" Redirection="FloatingPointUtils, 3.5.21.0 (System)" />
+                </PlaceholderRedirections>
+                <addData>
+                  <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+                    <ObjectId>9c584279-0787-4501-8376-2d24d8589df9</ObjectId>
+                  </data>
+                </addData>
+              </Libraries>
+            </data>
+            <data name="http://www.3s-software.com/plcopenxml/buildproperties" handleUnknown="implementation">
+              <BuildProperties>
+                <CompilerDefines>GENERATE_OVERLAY_VISU,VISU_USEPROPERTYINFO</CompilerDefines>
+              </BuildProperties>
+            </data>
+            <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+              <ObjectId>7a292871-3b78-40c5-93af-e9d6f07dc9b8</ObjectId>
+            </data>
+          </addData>
+        </resource>
+        <addData>
+          <data name="Device" handleUnknown="discard">
+            <Device xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="">
+              <DeviceType>
+                <DeviceIdentification>
+                  <Type>4096</Type>
+                  <Id>0000 0004</Id>
+                  <Version>3.5.21.20</Version>
+                </DeviceIdentification>
+                <Connector moduleType="256" interface="Common.PCI" connectorId="0">
+                  <HostParameterSet />
+                </Connector>
+                <Connector moduleType="769" interface="SafetyInterface" connectorId="1">
+                  <HostParameterSet />
+                </Connector>
+                <DeviceParameterSet />
+              </DeviceType>
+            </Device>
+          </data>
+          <data name="configurations" handleUnknown="discard">
+            <configurations />
+          </data>
+          <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+            <ObjectId>4be82845-8d0b-4b94-abcf-684f4eeff48c</ObjectId>
+          </data>
+        </addData>
+      </configuration>
+    </configurations>
+  </instances>
+  <addData>
+    <data name="http://www.3s-software.com/plcopenxml/projectstructure" handleUnknown="discard">
+      <ProjectStructure>
+        <Object Name="Device" ObjectId="4be82845-8d0b-4b94-abcf-684f4eeff48c">
+          <Object Name="Application" ObjectId="7a292871-3b78-40c5-93af-e9d6f07dc9b8">
+            <Object Name="Gestore libreria" ObjectId="9c584279-0787-4501-8376-2d24d8589df9" />
+            <Object Name="PLC_PRG" ObjectId="a096c61d-1036-4c96-9981-3f612e366ca0" />
+            <Object Name="MainTask" ObjectId="aa2bcde6-1f2c-4d5d-a1bd-efd3e32316fd" />
+            <Object Name="VISU_TASK" ObjectId="28d40bd9-1271-477e-bdd4-b1c505f86e09" />
+            <Object Name="Enum_stoplight" ObjectId="14fa634c-aaab-4569-b06b-8e42a492776b" />
+            <Object Name="EnumToStruct" ObjectId="a55f50fc-d339-4b7f-99ba-9cc0984737cb" />
+            <Object Name="Struct_stoplight" ObjectId="84ab795d-a7cb-4099-8462-6579915a4942" />
+          </Object>
+        </Object>
+      </ProjectStructure>
+    </data>
+  </addData>
+</project>
