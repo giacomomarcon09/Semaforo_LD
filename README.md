@@ -49,4 +49,4 @@ Questo progetto implementa la gestione di due semafori:
 - Implementata interamente in **Ladder (LD)**.
 - Uso di:
   - **Timer** per la gestione delle durate delle varie luci.  
-  - **Blocchi `MOVE`** per impostare il valore delle variabili enum dei due semafori (cambio stato, es.   
+  - **Blocchi `MOVE`** per impostare il valore delle variabili enum dei due semafori (cambio stato)
