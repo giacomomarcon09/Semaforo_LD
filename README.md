@@ -6,7 +6,7 @@ Questo progetto implementa la gestione di due semafori:
 
 ---
 
-## 🔧 Funzionamento normale
+##  Funzionamento normale
 - Il semaforo **Auto** è **verde**.  
 - Il semaforo **Pedoni** è **rosso**.  
 - Quando i pedoni premono il pulsante:
@@ -16,7 +16,7 @@ Questo progetto implementa la gestione di due semafori:
 
 ---
 
-## 🌙 Modalità Notte
+##  Modalità Notte
 - Attivabile con un pulsante **ritentivo**.
 - Entrambi i semafori lampeggiano **giallo** con una frequenza impostabile (es. `0.5s`).  
 - Se durante la modalità notte viene premuto il pulsante Pedoni:
@@ -26,7 +26,7 @@ Questo progetto implementa la gestione di due semafori:
 
 ---
 
-## 📐 Struttura dati
+##  Struttura dati
 
 - **`Enum_stoplight`**  
   Enumeratore che definisce gli stati possibili di un semaforo:  
@@ -45,7 +45,7 @@ Questo progetto implementa la gestione di due semafori:
 
 ---
 
-## ⚙️ Logica di controllo
+##  Logica di controllo
 - Implementata interamente in **Ladder (LD)**.
 - Uso di:
   - **Timer** per la gestione delle durate delle varie luci.  
